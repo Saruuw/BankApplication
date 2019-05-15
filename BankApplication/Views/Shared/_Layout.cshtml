@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.ajax.unobtrusive/3.2.4/jquery.unobtrusive-ajax.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,400i,500" rel="stylesheet">
+
+    <link href="~/CSS/StyleSheet.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <header>
+        STORBANKEN
+    </header>
+
+    <nav>
+        <a class="navLink" asp-controller="Customer" asp-action="NewCustomer">Skapa kund</a>
+        <a class="navLink" asp-controller="Customer" asp-action="SearchCustomer">Sök kund</a>
+    </nav>
+
+    <div>
+
+        @RenderBody()
+
+    </div>
+
+</body>
+
+</html>

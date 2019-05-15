@@ -6,49 +6,60 @@
         <h4>Skapa ny kund</h4>
         <p>Fyll i nedanstående uppgifter och klicka sedan på Spara. Du kommer sedan skickas tillbaka till startsidan.</p>
 
-        <form asp-controller="Bank" asp-action="NewCustomer" method="post">
+        <form asp-controller="Customer" asp-action="NewCustomer" method="post">
             <label asp-for="Givenname">Förnamn</label>
             <input asp-for="Givenname" />
+            @*<span asp-validation-for="Givenname"></span>*@
             <br />
             <label asp-for="Surname">Efternamn</label>
             <input asp-for="Surname" />
+            @*<span asp-validation-for="Surname"></span>*@
             <br />
             <label asp-for="Gender">Kön</label>
             <br />
             @*<label>Kvinna</label>
-            <input asp-for="Gender" type="radio" id="woman" name="drone" value="Kvinna" />
-            <label>Man</label>
-            <input asp-for="Gender" type="radio" id="man" name="drone" value="Man">
-            <br />*@
+        <input asp-for="Gender" type="radio" id="woman" name="drone" value="Kvinna" />
+        <label>Man</label>
+        <input asp-for="Gender" type="radio" id="man" name="drone" value="Man">
+        <br />*@
             <label asp-for="Streetaddress">Adress</label>
             <input asp-for="Streetaddress" />
+            @*<span asp-validation-for="Streetaddress"></span>*@
             <br />
             <label asp-for="City">Stad</label>
             <input asp-for="City" />
+            @*<span asp-validation-for="City"></span>*@
             <br />
             <label asp-for="Zipcode">Postnummer</label>
             <input asp-for="Zipcode" />
+            @*<span asp-validation-for="Zipcode"></span>*@
             <br />
             <label asp-for="Country">Land</label>
             <input asp-for="Country" />
+            @*<span asp-validation-for="Country"></span>*@
             <br />
             <label asp-for="CountryCode">Landskod</label>
             <input asp-for="CountryCode" />
+            @*<span asp-validation-for="CountryCode"></span>*@
             <br />
             <label asp-for="Birthday">Personnummer (åå-mm-dd)</label>
             <input type="text" asp-for="Birthday" />
+            @*<span asp-validation-for="Birthday"></span>*@
             <br />
             <label asp-for="NationalId">Nationellt Id *frivilligt</label>
             <input asp-for="NationalId" />
             <br />
-            <label asp-for="Telephonecountrycode">Telefon landskod</label>
+            <label asp-for="Telephonecountrycode">Riktnummer</label>
             <input asp-for="Telephonecountrycode" />
+            @*<span asp-validation-for="Telephonecountrycode"></span>*@
             <br />
             <label asp-for="Telephonenumber">Telefonnummer</label>
             <input asp-for="Telephonenumber" />
+            @*<span asp-validation-for="Telephonenumber"></span>*@
             <br />
             <label asp-for="Emailaddress">Email</label>
             <input asp-for="Emailaddress" />
+            @*<span asp-validation-for="Emailaddress"></span>*@
             <br /><br />
             <input type="submit" value="Spara" />
         </form>

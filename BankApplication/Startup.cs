@@ -29,6 +29,7 @@ namespace BankApplication
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer
             (Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<BankAppDataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -50,7 +51,7 @@ namespace BankApplication
             {
                 routes.MapRoute(
                 name: "Default",
-                template: "{controller=Customer}/{action=NewCustomer}"
+                template: "{controller=Bank}/{action=Index}"
                     );
             });
         }

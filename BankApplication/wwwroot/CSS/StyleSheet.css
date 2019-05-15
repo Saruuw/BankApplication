@@ -1,0 +1,49 @@
+﻿:root {
+    --primaryColor: deepskyblue;
+    --linkColor: #b2b2b2;
+    --linkHover: #868686;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body > div {
+    margin: 2em;
+}
+
+header {
+    font-size: 10em;
+    color: var(--primaryColor);
+    text-align: center;
+}
+
+nav {
+    text-align: center;
+}
+
+nav > a {
+    margin: .3em;
+}
+
+.navLink {
+    color: var(--linkColor);
+    text-decoration: none;
+    transition: .4s;
+}
+
+.navLink:hover {
+    color: var(--linkHover);
+}
+
+#indexDiv > div {
+    margin-bottom: .5em;
+}
+
+#indexDiv p {
+    font-weight: bold;
+}

@@ -35,13 +35,13 @@ namespace BankApplication.Controllers
         {
             //if (ModelState.IsValid)
             //{
-            values.Gender = "female"; //Fixa radiobuttons sen!
-            _context.Customers.Add(values);
-            _context.SaveChanges();
-            ModelState.Clear();
+                values.Gender = "female"; //Fixa radiobuttons sen!
+                _context.Customers.Add(values);
+                _context.SaveChanges();
+                ModelState.Clear();
             //}
 
-            return View("Index");
+            return RedirectToAction("Index", "Bank");
         }
 
         public IActionResult SearchCustomer()
@@ -55,7 +55,7 @@ namespace BankApplication.Controllers
         {
             var customer = _context.Customers.SingleOrDefault(c => c.CustomerId == mySearch);
 
-            return View("Visa", customer);
+            return View(customer);
         }
     }
 }
