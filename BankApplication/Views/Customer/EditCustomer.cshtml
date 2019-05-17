@@ -3,11 +3,11 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
     <div id="customerInfo-div">
-        <h2>Skapa ny kund</h2>
-        <p>Fyll i nedanstående uppgifter och klicka sedan på Spara</p>
+        <h2>Redigera kundinformation</h2>
         <p>Fält markerade med * är obligatoriska att fylla i</p>
         <br />
-        <form asp-controller="Customer" asp-action="NewCustomer" method="post">
+        <form asp-controller="Customer" asp-action="EditCustomer" method="post">
+            <input type="hidden" asp-for="@Model.CustomerId"/>
             <label asp-for="Givenname">* Förnamn</label>
             <br />
             <input asp-for="Givenname" />
@@ -20,10 +20,20 @@
             <br /><br />
             <label>* Kön</label>
             <br />
-            <input type="radio" id="female" name="Gender" value="female" />
-            <label for="female">Kvinna</label>
-            <input type="radio" id="male" name="Gender" value="male">
-            <label for="male">Man</label>
+            @if (Model.Gender == "female")
+            {
+                <input type="radio" id="female" name="Gender" value="female" checked="checked" />
+                <label for="female">Kvinna</label>
+                <input type="radio" id="male" name="Gender" value="male" />
+                <label for="male">Man</label>
+            }
+            else
+            {
+                <input type="radio" id="female" name="Gender" value="female" />
+                <label for="female">Kvinna</label>
+                <input type="radio" id="male" name="Gender" value="male" checked="checked" />
+                <label for="male">Man</label>
+            }
             <br /><br />
             <label asp-for="Streetaddress">* Adress</label>
             <br />
@@ -71,7 +81,7 @@
             <input asp-for="Emailaddress" placeholder="ex, namn.efternamn@hotmail.com" />
             <span asp-validation-for="Emailaddress"></span>
             <br /><br />
-            <input type="submit" value="Spara" />
+            <input type="submit" value="Spara ändringar" />
         </form>
         <p>@ViewData["Message"]</p>
     </div>

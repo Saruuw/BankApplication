@@ -37,18 +37,14 @@ namespace BankApplication.Models
         [Required(ErrorMessage = "Ange landskod")]
         public string CountryCode { get; set; }
 
-        [Required(ErrorMessage = "Ange födelsedag")]
         public DateTime? Birthday { get; set; }
 
         public string NationalId { get; set; }
 
-        [Required(ErrorMessage = "Ange riktnummer")]
         public string Telephonecountrycode { get; set; }
 
-        [Required(ErrorMessage = "Ange telefonnummer")]
         public string Telephonenumber { get; set; }
 
-        [Required(ErrorMessage = "Ange emailadress")]
         [DataType(DataType.EmailAddress, ErrorMessage = "Ogiltig emailadress")]
         public string Emailaddress { get; set; }
 

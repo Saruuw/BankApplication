@@ -1,14 +1,28 @@
-﻿@model BankApplication.Models.Customers;
+﻿@model BankApplication.ViewModels.AccountCustomerViewModel;
 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
-<form asp-controller="Customer" asp-action="SearchCustomer" method="post">
-    <label>Kundnummer</label>
-    <br />
-    <input type="number" name="mySearch" id="mySearch" />
-    <br />
-    <br />
-    <input type="submit" value="Sök" />
-</form>
+    <div id="searchCustomer">
+        <h3 id="cartHeadline">Sök kund</h3>
+        <form asp-controller="Customer"
+              asp-action="SearchCustomer"
+              data-ajax="true"
+              data-ajax-method="POST"
+              data-ajax-mode="replace"
+              data-ajax-update="#customerFoundDiv">
 
-<p>@Model.Givenname @Model.Surname</p>
+            <label>Kundnummer</label>
+            <br />
+            <input type="number" name="mySearch" id="mySearch" />
+            <br />
+            <br />
+            <input type="submit" value="Sök" />
+        </form>
+
+    </div>
+
+@if (Model != null)
+{
+    <div id="customerFoundDiv">
+    </div>
+}

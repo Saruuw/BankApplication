@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BankApplication.Models;
+using BankApplication.ViewModels;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,36 +27,99 @@ namespace BankApplication.Controllers
         public IActionResult NewCustomer()
         {
             var model = new Customers();
+            ViewData["Message"] = "";
 
             return View(model);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult NewCustomer(Customers values)
         {
-            //if (ModelState.IsValid)
-            //{
-                values.Gender = "female"; //Fixa radiobuttons sen!
+            if (ModelState.IsValid)
+            {
                 _context.Customers.Add(values);
+
+                Accounts newAccount = new Accounts();
+                newAccount.Balance = 0;
+                newAccount.Frequency = "Monthly"; //hårdkodat. Kolla med Haglund vad man bör göra här!
+                newAccount.Created = DateTime.Now;
+                _context.Accounts.Add(newAccount);
+
+                Dispositions newDisposition = new Dispositions();
+                newDisposition.AccountId = newAccount.AccountId;
+                newDisposition.CustomerId = values.CustomerId;
+                newDisposition.Type = "OWNER"; //hårdkodat. Kolla med Haglund vad man bör göra här!
+                _context.Dispositions.Add(newDisposition);
+
                 _context.SaveChanges();
                 ModelState.Clear();
-            //}
+                ViewData["Message"] = "Kunden har lagts till i kundregistret. Ett transaktionskonto för kunden har även skapats.";
 
-            return RedirectToAction("Index", "Bank");
+                return View();
+            }
+            else
+            {
+                ViewData["Message"] = "Kunden har ej lagts till i kundregistret. Vänligen kontrollera att alla obligatoriska fält är ifyllda.";
+                return View(values);
+            }
+
+        }
+
+        public IActionResult EditCustomer(int id)
+        {
+            var model = new Customers();
+            model = _context.Customers.SingleOrDefault(c => c.CustomerId == id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditCustomer(Customers values)
+        {
+            if (ModelState.IsValid)
+            {
+                var old = _context.Customers.SingleOrDefault(c => c.CustomerId == values.CustomerId);
+
+                _context.Entry(old).CurrentValues.SetValues(values);
+                _context.SaveChanges();
+                ModelState.Clear();
+                ViewData["Message"] = "Kundinformationen har uppdaterats";
+
+                return View();
+            }
+            ViewData["Message"] = "Kundinformationen kunde ej sparas. Kontrollera att alla obligatoriska fält är ifyllda.";
+                return View(values);
         }
 
         public IActionResult SearchCustomer()
         {
-            var model = new Customers();
+            var model = new AccountCustomerViewModel();
             return View(model);
         }
 
         [HttpPost]
         public IActionResult SearchCustomer(int mySearch)
         {
-            var customer = _context.Customers.SingleOrDefault(c => c.CustomerId == mySearch);
+            var model = new AccountCustomerViewModel();
+            var dispositionList = new List<Dispositions>();
 
-            return View(customer);
+            model.Customer = _context.Customers.SingleOrDefault(c => c.CustomerId == mySearch);
+            dispositionList = _context.Dispositions.Where(d => d.CustomerId == mySearch).ToList();
+
+            foreach (var disp in dispositionList)
+            {
+                var acc = _context.Accounts.SingleOrDefault(a => a.AccountId == disp.AccountId);
+                model.Accounts.Add(acc);
+            }
+
+            foreach(var acc in model.Accounts)
+            {
+                model.Total += acc.Balance;
+            }
+
+            return PartialView("_CustomerFound", model);
         }
     }
 }

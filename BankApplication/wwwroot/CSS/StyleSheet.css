@@ -47,3 +47,7 @@ nav > a {
 #indexDiv p {
     font-weight: bold;
 }
+
+#searchCustomer label, #customerFoundDiv label {
+    font-weight: bold;
+}
