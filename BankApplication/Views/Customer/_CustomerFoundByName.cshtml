@@ -1,0 +1,9 @@
+﻿@model CustomerSearchViewModel
+
+<div id="customerFoundByNameDiv">
+    @foreach (var cust in Model.CustomerList)
+    {
+        <a asp-controller="Customer" asp-action="ShowCustomer" asp-route-id="@cust.CustomerId">@cust.Givenname @cust.Surname</a>
+        <p>Kundnummer: @cust.CustomerId Personnummer: @cust.Birthday Adress: @cust.Streetaddress</p>
+    }
+</div>

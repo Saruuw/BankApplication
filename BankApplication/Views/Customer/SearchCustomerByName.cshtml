@@ -1,0 +1,25 @@
+﻿@model CustomerSearchViewModel
+
+    <div id="searchCustomerByName">
+        <h3 id="cartHeadline">Sök kund</h3>
+        <form asp-controller="Customer"
+              asp-action="SearchCustomerByName"
+              data-ajax="true"
+              data-ajax-method="POST"
+              data-ajax-mode="replace"
+              data-ajax-update="#customerFoundByNameDiv">
+
+            <label>Förnamn eller stad</label>
+            <br />
+            <input type="text" asp-for="@Model.SearchValue" />
+            <br />
+            <br />
+            <input type="submit" value="Sök" />
+        </form>
+    </div>
+
+@if(Model != null)
+{
+    <div id="customerFoundByNameDiv">
+    </div>
+}

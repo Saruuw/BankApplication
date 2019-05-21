@@ -87,26 +87,39 @@ namespace BankApplication.Controllers
                 ModelState.Clear();
                 ViewData["Message"] = "Kundinformationen har uppdaterats";
 
-                return View();
+                return View(values);
             }
             ViewData["Message"] = "Kundinformationen kunde ej sparas. Kontrollera att alla obligatoriska fält är ifyllda.";
-                return View(values);
+            return View(values);
         }
 
-        public IActionResult SearchCustomer()
+        public IActionResult SearchCustomerById()
         {
             var model = new AccountCustomerViewModel();
             return View(model);
         }
 
+        public IActionResult SearchCustomerByName()
+        {
+            var model = new CustomerSearchViewModel();
+            return View(model);
+        }
+
         [HttpPost]
-        public IActionResult SearchCustomer(int mySearch)
+        public IActionResult SearchCustomerByName(CustomerSearchViewModel values)
+        {
+            var model = new CustomerSearchViewModel();
+            model.CustomerList = _context.Customers.Where(c => c.Givenname.Contains(values.SearchValue) || c.City.Contains(values.SearchValue)).ToList();
+            return PartialView("_CustomerFoundByName", model);
+        }
+
+        public IActionResult ShowCustomer(int id)
         {
             var model = new AccountCustomerViewModel();
             var dispositionList = new List<Dispositions>();
 
-            model.Customer = _context.Customers.SingleOrDefault(c => c.CustomerId == mySearch);
-            dispositionList = _context.Dispositions.Where(d => d.CustomerId == mySearch).ToList();
+            model.Customer = _context.Customers.SingleOrDefault(c => c.CustomerId == id);
+            dispositionList = _context.Dispositions.Where(d => d.CustomerId == id).ToList();
 
             foreach (var disp in dispositionList)
             {
@@ -114,12 +127,12 @@ namespace BankApplication.Controllers
                 model.Accounts.Add(acc);
             }
 
-            foreach(var acc in model.Accounts)
+            foreach (var acc in model.Accounts)
             {
                 model.Total += acc.Balance;
             }
 
-            return PartialView("_CustomerFound", model);
+            return View(model);
         }
     }
 }

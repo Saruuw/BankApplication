@@ -1,0 +1,25 @@
+﻿@model BankApplication.Models.Customers;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+        <h3>Sök kund</h3>
+        <form asp-controller="Customer"
+              asp-action="SearchCustomerByName"
+              data-ajax="true"
+              data-ajax-method="GET"
+              data-ajax-mode="replace"
+              data-ajax-update="#customerFoundByNameDiv">
+
+            <label>Förnamn eller stad</label>
+            <br />
+            <input type="text" name="searchValue" id="searchValue" />
+            <br />
+            <br />
+            <input type="submit" value="Sök" />
+        </form>
+
+@if (Model != null)
+{
+    <div id="customerFoundByNameDiv">
+    </div>
+}
