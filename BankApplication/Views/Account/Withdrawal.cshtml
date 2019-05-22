@@ -1,0 +1,25 @@
+﻿@model DepositWithdrawalViewModel
+
+<div id="withdrawalDiv">
+    <h2>Uttag</h2>
+    <form asp-controller="Account"
+          asp-action="Withdrawal"
+          data-ajax="true"
+          data-ajax-method="POST"
+          data-ajax-mode="replace"
+          data-ajax-update="#withdrawalResultDiv">
+        <input type="hidden" asp-for="@Model.Account.AccountId" />
+        <label asp-for="@Model.Account.AccountId">Uttag från konto:</label>
+        <p>@Model.Account.AccountId - @Model.Account.Balance SEK</p>
+        <label asp-for="@Model.Transaction.Amount">Summa</label>
+        <input type="text" asp-for="@Model.Transaction.Amount" /> SEK
+        <br /><br />
+        <input type="submit" value="Godkänn" />
+    </form>
+</div>
+
+@if (Model != null)
+{
+    <div id="withdrawalResultDiv">
+    </div>
+}

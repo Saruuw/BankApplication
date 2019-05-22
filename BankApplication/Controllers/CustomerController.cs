@@ -19,48 +19,62 @@ namespace BankApplication.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         public IActionResult NewCustomer()
         {
-            var model = new Customers();
-            ViewData["Message"] = "";
-
+            var model = new CustomerMessageViewModel();
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult NewCustomer(Customers values)
+        public IActionResult NewCustomer(CustomerMessageViewModel values)
         {
-            if (ModelState.IsValid)
+            if (values.Customer.CustomerId == 0)
             {
-                _context.Customers.Add(values);
+                if (ModelState.IsValid)
+                {
+                    _context.Customers.Add(values.Customer);
 
-                Accounts newAccount = new Accounts();
-                newAccount.Balance = 0;
-                newAccount.Frequency = "Monthly"; //hårdkodat. Kolla med Haglund vad man bör göra här!
-                newAccount.Created = DateTime.Now;
-                _context.Accounts.Add(newAccount);
+                    Accounts newAccount = new Accounts();
+                    newAccount.Balance = 0;
+                    newAccount.Frequency = "Monthly"; //hårdkodat. Kolla med Haglund vad man bör göra här!
+                    newAccount.Created = DateTime.Now;
+                    _context.Accounts.Add(newAccount);
 
-                Dispositions newDisposition = new Dispositions();
-                newDisposition.AccountId = newAccount.AccountId;
-                newDisposition.CustomerId = values.CustomerId;
-                newDisposition.Type = "OWNER"; //hårdkodat. Kolla med Haglund vad man bör göra här!
-                _context.Dispositions.Add(newDisposition);
+                    Dispositions newDisposition = new Dispositions();
+                    newDisposition.AccountId = newAccount.AccountId;
+                    newDisposition.CustomerId = values.Customer.CustomerId;
+                    newDisposition.Type = "OWNER"; //hårdkodat. Kolla med Haglund vad man bör göra här!
+                    _context.Dispositions.Add(newDisposition);
 
-                _context.SaveChanges();
-                ModelState.Clear();
-                ViewData["Message"] = "Kunden har lagts till i kundregistret. Ett transaktionskonto för kunden har även skapats.";
+                    _context.SaveChanges();
+                    ModelState.Clear();
 
-                return View();
+                    values.Message = "Kunden har lagts till i kundregistret. Ett transaktionskonto för kunden har även skapats.";
+
+                    return View(values);
+                }
+                else
+                {
+                    values.Message = "Kunden har ej lagts till i kundregistret. Vänligen kontrollera att alla obligatoriska fält är ifyllda.";
+                    return View(values);
+                }
             }
             else
             {
-                ViewData["Message"] = "Kunden har ej lagts till i kundregistret. Vänligen kontrollera att alla obligatoriska fält är ifyllda.";
+                if (ModelState.IsValid)
+                {
+                    var old = _context.Customers.SingleOrDefault(c => c.CustomerId == values.Customer.CustomerId);
+
+                    _context.Entry(old).CurrentValues.SetValues(values.Customer);
+                    _context.SaveChanges();
+                    ModelState.Clear();
+
+                    values.Message = "Kundinformationen har uppdaterats";
+
+                    return View(values);
+                }
+                values.Message = "Kundinformationen kunde ej sparas. Kontrollera att alla obligatoriska fält är ifyllda.";
                 return View(values);
             }
 
@@ -68,35 +82,14 @@ namespace BankApplication.Controllers
 
         public IActionResult EditCustomer(int id)
         {
-            var model = new Customers();
-            model = _context.Customers.SingleOrDefault(c => c.CustomerId == id);
-
-            return View(model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult EditCustomer(Customers values)
-        {
-            if (ModelState.IsValid)
-            {
-                var old = _context.Customers.SingleOrDefault(c => c.CustomerId == values.CustomerId);
-
-                _context.Entry(old).CurrentValues.SetValues(values);
-                _context.SaveChanges();
-                ModelState.Clear();
-                ViewData["Message"] = "Kundinformationen har uppdaterats";
-
-                return View(values);
-            }
-            ViewData["Message"] = "Kundinformationen kunde ej sparas. Kontrollera att alla obligatoriska fält är ifyllda.";
-            return View(values);
+            var model = new CustomerMessageViewModel();
+            model.Customer = _context.Customers.SingleOrDefault(c => c.CustomerId == id);
+            return View("NewCustomer", model);
         }
 
         public IActionResult SearchCustomerById()
         {
-            var model = new AccountCustomerViewModel();
-            return View(model);
+            return View();
         }
 
         public IActionResult SearchCustomerByName()

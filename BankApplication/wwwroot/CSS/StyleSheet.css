@@ -40,6 +40,15 @@ nav > a {
     color: var(--linkHover);
 }
 
+a {
+    color: var(--linkColor);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--linkHover);
+}
+
 #indexDiv > div {
     margin-bottom: .5em;
 }
@@ -48,6 +57,25 @@ nav > a {
     font-weight: bold;
 }
 
-#searchCustomer label, #customerFoundDiv label {
+#searchCustomer label, #customerFoundDiv label, #accountDetailsDiv label {
     font-weight: bold;
+}
+
+th, td {
+    width: 22em;
+}
+
+th {
+    height: 2em;
+    text-align: left;
+}
+
+td {
+    text-align: left;
+    padding: .5em;
+    height: 3em;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
 }

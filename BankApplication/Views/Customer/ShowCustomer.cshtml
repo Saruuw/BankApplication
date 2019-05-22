@@ -83,7 +83,9 @@
         @foreach (var acc in Model.Accounts)
         {
             <label>Konto id</label>
-            <p>@acc.AccountId</p>
+            <br />
+            <a asp-controller="Account" asp-action="AccountDetails" asp-route-id="@acc.AccountId">@acc.AccountId</a>
+            <br />
             <label>Frekvens</label>
             @if (acc.Frequency == "Monthly")
             {

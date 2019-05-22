@@ -1,0 +1,12 @@
+﻿@model DepositWithdrawalViewModel
+
+    <div id="depositDoneDiv">
+        <h2>Insättning ok!</h2>
+        <br /><br />
+        <label>Summa:</label>
+        <p>@Model.Transaction.Amount</p>
+        <label>Till konto:</label>
+        <p>@Model.Transaction.AccountId</p>
+        <label>Nytt saldo:</label>
+        <p>@Model.Account.Balance</p>
+    </div>
