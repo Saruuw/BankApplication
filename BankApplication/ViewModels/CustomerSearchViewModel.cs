@@ -11,6 +11,8 @@ namespace BankApplication.ViewModels
         public List<Customers> CustomerList { get; set; }
         public string SearchValue { get; set; }
 
+        public string NameOrCity { get; set; }
+
         public CustomerSearchViewModel()
         {
             CustomerList = new List<Customers>();

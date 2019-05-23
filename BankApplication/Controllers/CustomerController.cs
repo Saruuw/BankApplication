@@ -102,7 +102,25 @@ namespace BankApplication.Controllers
         public IActionResult SearchCustomerByName(CustomerSearchViewModel values)
         {
             var model = new CustomerSearchViewModel();
-            model.CustomerList = _context.Customers.Where(c => c.Givenname.Contains(values.SearchValue) || c.City.Contains(values.SearchValue)).ToList();
+
+            if (values.NameOrCity == "name")
+            {
+                model.CustomerList = _context.Customers.Where(c => c.Givenname.Contains(values.SearchValue)).ToList();
+            }
+            else if (values.NameOrCity == "city")
+            {
+                model.CustomerList = _context.Customers.Where(c => c.City.Contains(values.SearchValue)).ToList();
+            }
+            else
+            {
+                return PartialView("_CustomerNotFound");
+            }
+
+            if(model.CustomerList.Count == 0)
+            {
+                return PartialView("_CustomerNotFound");
+            }
+            
             return PartialView("_CustomerFoundByName", model);
         }
 
@@ -112,6 +130,13 @@ namespace BankApplication.Controllers
             var dispositionList = new List<Dispositions>();
 
             model.Customer = _context.Customers.SingleOrDefault(c => c.CustomerId == id);
+
+            if(model.Customer == null)
+            {
+                ViewData["Message"] = "Kund ej hitta kund med matchande kundnummer";
+                return View("SearchCustomerById");
+            }
+
             dispositionList = _context.Dispositions.Where(d => d.CustomerId == id).ToList();
 
             foreach (var disp in dispositionList)

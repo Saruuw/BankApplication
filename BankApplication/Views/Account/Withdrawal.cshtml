@@ -15,6 +15,7 @@
         <input type="text" asp-for="@Model.Transaction.Amount" /> SEK
         <br /><br />
         <input type="submit" value="Godkänn" />
+        <a asp-controller="Account" asp-action="AccountDetails" asp-route-id="@Model.Account.AccountId">Tillbaka</a>
     </form>
 </div>
 

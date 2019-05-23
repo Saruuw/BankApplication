@@ -1,0 +1,35 @@
+﻿@model Transactions
+
+    <div id="transactionDiv">
+        <h2>Skapa transaktion</h2>
+        <form asp-controller="Account"
+              asp-action="Transaction"
+              data-ajax="true"
+              data-ajax-method="POST"
+              data-ajax-mode="replace"
+              data-ajax-update="#transactionResultDiv">
+            <input type="hidden" asp-for="@Model.AccountId" />
+            <label asp-for="@Model.AccountId">Överföring från konto:</label>
+            <p>@Model.AccountId</p>
+            <br />
+            <label asp-for="@Model.Account">Överföring till konto:</label>
+            <input type="text" asp-for="@Model.Account" />
+            <br />
+            <label asp-for="@Model.Amount">Summa</label>
+            <input type="text" asp-for="@Model.Amount" />
+            <br />
+            <label asp-for="@Model.Symbol">Meddelande</label>
+            <input type="text" asp-for="@Model.Symbol" />
+            <br />
+            <label asp-for="@Model.Bank">Bank</label>
+            <input type="text" asp-for="@Model.Bank" />
+            <br /><br />
+            <input type="submit" value="Godkänn överföring" />
+        </form>
+    </div>
+
+@if(Model != null)
+{
+    <div id="transactionResultDiv">
+    </div>
+}

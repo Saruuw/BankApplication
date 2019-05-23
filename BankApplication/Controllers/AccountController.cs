@@ -85,6 +85,71 @@ namespace BankApplication.Controllers
             }
         }
 
+        public IActionResult Transaction(int id)
+        {
+            var model = new Transactions();
+            model.AccountId = id;
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Transaction(Transactions values)
+        {
+            var transactionInfo = new TransactionDoneViewModel();
+            transactionInfo.Transaction = values;
+            transactionInfo.Amount = values.Amount;
+
+            var transactionFrom = new Transactions();
+            transactionFrom = values;
+            transactionFrom.Date = DateTime.Now;
+            transactionFrom.Date.ToShortDateString();
+            transactionFrom.Type = "Debit";
+            transactionFrom.Operation = "Remittance to Another Bank";
+
+            var transactionTo = new Transactions();
+            transactionTo.AccountId = Int32.Parse(values.Account);
+            transactionTo.Date = transactionFrom.Date;
+            transactionTo.Type = "Credit";
+            transactionTo.Operation = "Collection from Another Bank";
+            transactionTo.Amount = values.Amount;
+            transactionTo.Symbol = values.Symbol;
+            transactionTo.Bank = values.Bank;
+            transactionTo.Account = values.AccountId.ToString();
+
+            var oldTo = _context.Accounts.SingleOrDefault(a => a.AccountId == Int32.Parse(values.Account));
+
+            if(oldTo == null)
+            {
+                return PartialView("_TransactionFailed", values);
+            }
+            
+            var newTo = oldTo;
+            newTo.Balance = oldTo.Balance + values.Amount;
+            transactionTo.Balance = newTo.Balance;
+
+            var oldFrom = _context.Accounts.SingleOrDefault(a => a.AccountId == values.AccountId);
+            if(oldFrom.Balance < values.Amount)
+            {
+                return PartialView("_TransactionAmountToHigh");
+            }
+
+            transactionFrom.Amount = (-(values.Amount));
+
+            var newFrom = oldFrom;
+            newFrom.Balance = oldFrom.Balance + (values.Amount);
+            transactionFrom.Balance = newFrom.Balance;
+
+            _context.Entry(oldFrom).CurrentValues.SetValues(newFrom);
+            _context.Entry(oldTo).CurrentValues.SetValues(newTo);
+            _context.Transactions.Add(transactionFrom);
+            _context.Transactions.Add(transactionTo);
+            _context.SaveChanges();
+            ModelState.Clear();
+
+            return PartialView("_TransactionDone", transactionInfo);
+
+        }
+
         public IActionResult AccountDetails(int id)
         {
             var model = new AccountTransactionViewModel();

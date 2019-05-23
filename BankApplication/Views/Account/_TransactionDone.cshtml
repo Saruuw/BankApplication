@@ -1,0 +1,12 @@
+﻿@model TransactionDoneViewModel
+
+    <div id="transactionResultDiv">
+        <h2>Överföring ok!</h2>
+        <br /><br />
+        <label>Summa:</label>
+        <p>@Model.Amount</p>
+        <label>Till konto:</label>
+        <p>@Model.Transaction.Account</p>
+        <label>Från konto:</label>
+        <p>@Model.Transaction.AccountId</p>
+    </div>
