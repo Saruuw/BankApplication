@@ -8,23 +8,29 @@
               data-ajax-method="POST"
               data-ajax-mode="replace"
               data-ajax-update="#transactionResultDiv">
-            <input type="hidden" asp-for="@Model.AccountId" />
-            <label asp-for="@Model.AccountId">Överföring från konto:</label>
-            <p>@Model.AccountId</p>
-            <br />
-            <label asp-for="@Model.Account">Överföring till konto:</label>
-            <input type="text" asp-for="@Model.Account" />
-            <br />
-            <label asp-for="@Model.Amount">Summa</label>
-            <input type="text" asp-for="@Model.Amount" />
-            <br />
-            <label asp-for="@Model.Symbol">Meddelande</label>
-            <input type="text" asp-for="@Model.Symbol" />
-            <br />
-            <label asp-for="@Model.Bank">Bank</label>
-            <input type="text" asp-for="@Model.Bank" />
-            <br /><br />
-            <input type="submit" value="Godkänn överföring" />
+            <div class="form-group">
+                <input type="hidden" asp-for="@Model.AccountId" />
+                <label asp-for="@Model.AccountId">Överföring från konto:</label>
+                <p>@Model.AccountId</p>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Account">Överföring till konto:</label>
+                <input type="text" asp-for="@Model.Account" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Amount">Summa</label>
+                <input type="text" asp-for="@Model.Amount" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Symbol">Meddelande</label>
+                <input type="text" asp-for="@Model.Symbol" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Bank">Bank</label>
+                <input type="text" asp-for="@Model.Bank" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Godkänn överföring</button>
+            <a asp-controller="Account" asp-action="AccountDetails" asp-route-id="@Model.AccountId">Tillbaka</a>
         </form>
     </div>
 

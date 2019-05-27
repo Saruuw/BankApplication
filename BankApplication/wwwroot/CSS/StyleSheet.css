@@ -24,11 +24,12 @@ header {
 
 nav {
     text-align: center;
+    width: auto;
 }
 
-nav > a {
-    margin: .3em;
-}
+    nav > a {
+        margin: .3em;
+    }
 
 .navLink {
     color: var(--linkColor);
@@ -36,26 +37,20 @@ nav > a {
     transition: .4s;
 }
 
-.navLink:hover {
-    color: var(--linkHover);
-}
+    .navLink:hover {
+        color: var(--linkHover);
+    }
 
 a {
     color: var(--linkColor);
     text-decoration: none;
 }
 
-a:hover {
-    color: var(--linkHover);
-}
+    a:hover {
+        color: var(--linkHover);
+    }
 
-#indexDiv > div {
-    margin-bottom: .5em;
-}
 
-#indexDiv p {
-    font-weight: bold;
-}
 
 #searchCustomer label, #customerFoundDiv label, #accountDetailsDiv label {
     font-weight: bold;
@@ -78,4 +73,90 @@ td {
 
 tr:nth-child(even) {
     background-color: #f2f2f2;
+}
+
+#login {
+    width: 25%;
+    margin: 0 auto;
+}
+
+#registrera {
+    width: 25%;
+    margin: 0 auto;
+}
+
+#indexDiv {
+    width: 25%;
+}
+
+    #indexDiv p {
+        font-weight: bold;
+        margin: 0;
+    }
+
+#indexDiv, #customerInfo-div {
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid black;
+}
+
+#customerInfo-div {
+    width: 70%;
+}
+
+    #customerInfo-div p {
+        margin: 0;
+    }
+
+#customerInner-div {
+    width: 60%;
+    margin: 2em auto;
+}
+
+#searchCustomerById {
+    width: 40%;
+    margin: 0 auto;
+}
+
+#searchCustomerByNameInner {
+    width: 40%;
+    margin: 0 auto;
+}
+
+#customerFoundDiv {
+    width: 80%;
+    margin: 0 auto;
+}
+
+#customerFoundLeft, #customerFoundMiddle, #customerFoundRight {
+    float: left;
+    width: 30%;
+}
+
+#customerFoundAccounts {
+    margin-top: 4em;
+}
+
+#accountDetailsDiv label, #accountDetailsDiv p {
+    margin: 0;
+}
+
+#transactionDiv {
+    width: 70%;
+    margin: 0 auto;
+}
+
+#depositDiv, #withdrawalDiv {
+    width: 40%;
+    margin: 0 auto;
+}
+
+
+#transactionDiv label, #withdrawalDiv label, #depositDiv label {
+    font-weight: bold;
+    margin: 0;
+}
+
+#transactionDiv p, #withdrawalDiv p, #depositDiv p {
+    margin: 0;
 }

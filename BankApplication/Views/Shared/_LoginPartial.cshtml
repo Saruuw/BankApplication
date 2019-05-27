@@ -6,24 +6,24 @@
 
 @if (signInManager.IsSignedIn(User))
 {
-    <ul>
-        @if (User.IsInRole("Cashier"))
-        {
-            <a class="navLink" asp-controller="Customer" asp-action="NewCustomer">Skapa kund</a>
-            <a class="navLink" asp-controller="Customer" asp-action="SearchCustomerById">Sök kundnummer</a>
-            <a class="navLink" asp-controller="Customer" asp-action="SearchCustomerByName">Sök kundnamn</a>
-        }
-        else if(User.IsInRole("Admin"))
-        {
-            <a class="navLink" asp-controller="Bank" asp-action="Register">Skapa användare</a>
-        }
-        <li><a asp-controller="Bank" asp-action="LogOff">Logga ut</a> </li>
-    </ul>
+
+    @if (User.IsInRole("Cashier"))
+    {
+        <a class="navLink" asp-controller="Customer" asp-action="NewCustomer">Skapa kund</a>
+        <a class="navLink" asp-controller="Customer" asp-action="SearchCustomerById">Sök kundnummer</a>
+        <a class="navLink" asp-controller="Customer" asp-action="SearchCustomerByName">Sök kundnamn</a>
+    }
+    else if (User.IsInRole("Admin"))
+    {
+        <a class="navLink" asp-controller="Bank" asp-action="Register">Skapa användare</a>
+    }
+    <a asp-controller="Bank" asp-action="LogOff">Logga ut</a>
+
 }
 else
 {
-    <ul>
-        <li><a asp-controller="Bank" asp-action="Login">Logga in</a></li>
-    </ul>
+
+    <a asp-controller="Bank" asp-action="Login">Logga in</a>
+
 
 }

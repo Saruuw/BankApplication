@@ -1,111 +1,166 @@
 ﻿@model AccountCustomerViewModel;
 
-<div id="customerFoundDiv">
-    <h2>Kundinformation</h2>
-    <label>Kund id</label>
-    <p>@Model.Customer.CustomerId</p>
-    <label>Förnamn</label>
-    <p>@Model.Customer.Givenname</p>
-    <label>Efternamn</label>
-    <p>@Model.Customer.Surname</p>
-    <label>Kön</label>
-    @if (Model.Customer.Gender == "female")
-    {
-        <p>Kvinna</p>
-    }
-    else
-    {
-        <p>Man</p>
-    }
-    <label>Adress</label>
-    <p>@Model.Customer.Streetaddress</p>
-    <label>Stad</label>
-    <p>@Model.Customer.City</p>
-    <label>Postnummer</label>
-    <p>@Model.Customer.Zipcode</p>
-    <label>Land</label>
-    <p>@Model.Customer.Country</p>
-    <label>Landskod</label>
-    <p>@Model.Customer.CountryCode</p>
-    <label>Födelsedatum</label>
-    @if (Model.Customer.Birthday == null)
-    {
-        <p>Ej angivet</p>
-    }
-    else
-    {
-        <p>@Model.Customer.Birthday</p>
-    }
-    <label>Nationellt id</label>
-    @if (Model.Customer.NationalId == null)
-    {
-        <p>Ej angivet</p>
-    }
-    else
-    {
-        <p>@Model.Customer.NationalId</p>
-    }
-    <label>Riktnummer</label>
-    @if (Model.Customer.Telephonecountrycode == null)
-    {
-        <p>Ej angivet</p>
-    }
-    else
-    {
-        <p>@Model.Customer.Telephonecountrycode</p>
-    }
-    <label>Telefonnummer</label>
-    @if (Model.Customer.Telephonenumber == null)
-    {
-        <p>Ej angivet</p>
-    }
-    else
-    {
-        <p>@Model.Customer.Telephonenumber</p>
-    }
-    <label>Email</label>
-    @if (Model.Customer.Emailaddress == null)
-    {
-        <p>Ej angivet</p>
-    }
-    else
-    {
-        <p>@Model.Customer.Emailaddress</p>
-    }
+    <div id="customerFoundDiv">
+        <h2>Kundinformation</h2>
+        <div class="form-group">
+            <div>
+                <a class="navLink" asp-controller="Customer" asp-action="EditCustomer" asp-route-id="@Model.Customer.CustomerId">Redigera kund</a>
+            </div>
+            <br />
+            <div id="customerFoundLeft">
+                <div class="form-group">
+                    <label>Kund id</label>
+                    <p>@Model.Customer.CustomerId</p>
+                </div>
+                <div class="form-group">
+                    <label>Förnamn</label>
+                    <p>@Model.Customer.Givenname</p>
+                </div>
+                <div class="form-group">
+                    <label>Efternamn</label>
+                    <p>@Model.Customer.Surname</p>
+                </div>
+                <div class="form-group">
+                    <label>Kön</label>
+                    @if (Model.Customer.Gender == "female")
+                    {
+                        <p>Kvinna</p>
+                    }
+                    else
+                    {
+                        <p>Man</p>
+                    }
+                </div>
+                <div class="form-group">
+                    <label>Adress</label>
+                    <p>@Model.Customer.Streetaddress</p>
+                </div>
+            </div>
+            <div id="customerFoundMiddle">
+                <div class="form-group">
+                    <label>Stad</label>
+                    <p>@Model.Customer.City</p>
+                </div>
+                <div class="form-group">
+                    <label>Postnummer</label>
+                    <p>@Model.Customer.Zipcode</p>
+                </div>
+                <div class="form-group">
+                    <label>Land</label>
+                    <p>@Model.Customer.Country</p>
+                </div>
+                <div class="form-group">
+                    <label>Landskod</label>
+                    <p>@Model.Customer.CountryCode</p>
+                </div>
+            </div>
+            <div id="customerFoundRight">
+                <div class="form-group">
+                    <label>Födelsedatum</label>
+                    @if (Model.Customer.Birthday == null)
+                    {
+                        <p>Ej angivet</p>
+                    }
+                    else
+                    {
+                        <p>@Model.Customer.Birthday</p>
+                    }
+                </div>
+                <div class="form-group">
+                    <label>Nationellt id</label>
+                    @if (Model.Customer.NationalId == null)
+                    {
+                        <p>Ej angivet</p>
+                    }
+                    else
+                    {
+                        <p>@Model.Customer.NationalId</p>
+                    }
+                </div>
+                <div class="form-group">
+                    <label>Riktnummer</label>
+                    @if (Model.Customer.Telephonecountrycode == null)
+                    {
+                        <p>Ej angivet</p>
+                    }
+                    else
+                    {
+                        <p>@Model.Customer.Telephonecountrycode</p>
+                    }
+                </div>
+                <div class="form-group">
+                    <label>Telefonnummer</label>
+                    @if (Model.Customer.Telephonenumber == null)
+                    {
+                        <p>Ej angivet</p>
+                    }
+                    else
+                    {
+                        <p>@Model.Customer.Telephonenumber</p>
+                    }
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    @if (Model.Customer.Emailaddress == null)
+                    {
+                        <p>Ej angivet</p>
+                    }
+                    else
+                    {
+                        <p>@Model.Customer.Emailaddress</p>
+                    }
+                </div>
 
-    <h2>Konton</h2>
-    @if (Model.Accounts.Count == 0)
-    {
-        <p>Inga konton funna</p>
-    }
-    else
-    {
-        @foreach (var acc in Model.Accounts)
-        {
-            <label>Konto id</label>
-            <br />
-            <a asp-controller="Account" asp-action="AccountDetails" asp-route-id="@acc.AccountId">@acc.AccountId</a>
-            <br />
-            <label>Frekvens</label>
-            @if (acc.Frequency == "Monthly")
+            </div>
+        </div>
+        <br />
+        <div id="customerFoundAccounts">
+            <h2>Konton</h2>
+            @if (Model.Accounts.Count == 0)
             {
-                <p>Månatlig</p>
-
+                <p>Inga konton funna</p>
             }
             else
             {
-                <p>Veckolig</p>
+                <table>
+                    <tr>
+                        <th>Konto id</th>
+                        <th>Frekvens</th>
+                        <th>Skapad</th>
+                        <th>Saldo</th>
+                    </tr>
+                    @foreach (var acc in Model.Accounts)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-controller="Account" asp-action="AccountDetails" asp-route-id="@acc.AccountId">@acc.AccountId</a>
+                            </td>
+
+                            @if (acc.Frequency == "Monthly")
+                            {
+                                <td>
+                                    Månatlig
+                                </td>
+
+                            }
+                            else
+                            {
+                                <td>
+                                    Veckolig
+                                </td>
+                            }
+                            <td>
+                                @acc.Created.ToShortDateString()
+                            </td>
+                            <td>
+                                @acc.Balance
+                            </td>
+                        </tr>
+                    }
+                </table>
+                <label>Totalt saldo</label>
+                <p>@Model.Total</p>
             }
-            <label>Skapad</label>
-            <p>@acc.Created.ToShortDateString()</p>
-            <label>Saldo</label>
-            <p>@acc.Balance</p>
-        }
-
-        <label>Totalt saldo</label>
-        <p>@Model.Total</p>
-    }
-
-    <a class="navLink" asp-controller="Customer" asp-action="EditCustomer" asp-route-id="@Model.Customer.CustomerId">Redigera kund</a>
-
+        </div>
+    </div>
 </div>

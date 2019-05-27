@@ -94,36 +94,65 @@ namespace BankApplication.Controllers
             return View();
         }
 
-        public IActionResult SearchCustomerByName()
+        [HttpGet]
+        public IActionResult SearchCustomerByName(CustomerSearchViewModel values, int page = 1)
         {
-            var model = new CustomerSearchViewModel();
-            return View(model);
-        }
-
-        [HttpPost]
-        public IActionResult SearchCustomerByName(CustomerSearchViewModel values)
-        {
-            var model = new CustomerSearchViewModel();
-
-            if (values.NameOrCity == "name")
+            if (values.SearchValue == null)
             {
-                model.CustomerList = _context.Customers.Where(c => c.Givenname.Contains(values.SearchValue) || c.Surname.Contains(values.SearchValue)).ToList();
-            }
-            else if (values.NameOrCity == "city")
-            {
-                model.CustomerList = _context.Customers.Where(c => c.City.Contains(values.SearchValue)).ToList();
+                var model = new CustomerSearchViewModel();
+                return View(model);
             }
             else
             {
-                return PartialView("_CustomerNotFound");
-            }
+                const int pageSize = 50;
+                int offSet = pageSize * (page - 1);
 
-            if(model.CustomerList.Count == 0)
-            {
-                return PartialView("_CustomerNotFound");
+                var model = new CustomerSearchViewModel();
+                model.SearchValue = values.SearchValue;
+                model.NameOrCity = values.NameOrCity;
+
+                if (values.NameOrCity == "name")
+                {
+                    var customerList = _context.Customers.Where(c => c.Givenname.Contains(values.SearchValue) || c.Surname.Contains(values.SearchValue));
+                    model.CustomerList = customerList.ToList();
+                }
+                else if (values.NameOrCity == "city")
+                {
+                    var customerList = _context.Customers.Where(c => c.City.Contains(values.SearchValue));
+                    model.CustomerList = customerList.ToList();
+                }
+                else
+                {
+                    ViewData["Message"] = "Kryssa för ditt sökalternativ";
+                    return View(model);
+                }
+
+                var total = model.CustomerList.Count();
+                model.HasMorePages = offSet + pageSize < total;
+                var firstCustomerList = model.CustomerList.Skip((page - 1) * pageSize).Take(pageSize);
+                model.CustomerList = firstCustomerList.ToList();
+
+                if (model.CustomerList.Count == 0)
+                {
+                    ViewData["Message"] = "Kunde ej hitta kund";
+                    return View(model);
+                }
+                else
+                {
+
+                    if (total % 50 != 0)
+                    {
+                        model.TotalPages = (total / pageSize) + 1;
+                    }
+                    else
+                    {
+                        model.TotalPages = total / pageSize;
+                    }
+
+                }
+
+                return View(model);
             }
-            
-            return PartialView("_CustomerFoundByName", model);
         }
 
         public IActionResult ShowCustomer(int id)
@@ -135,11 +164,12 @@ namespace BankApplication.Controllers
 
             if(model.Customer == null)
             {
-                ViewData["Message"] = "Kund ej hitta kund med matchande kundnummer";
+                ViewData["Message"] = "Kunde ej hitta kund med matchande kundnummer";
                 return View("SearchCustomerById");
             }
 
-            dispositionList = _context.Dispositions.Where(d => d.CustomerId == id).ToList();
+            var firstDispositionList = _context.Dispositions.Where(d => d.CustomerId == id);
+            dispositionList = firstDispositionList.ToList();
 
             foreach (var disp in dispositionList)
             {

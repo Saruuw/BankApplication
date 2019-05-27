@@ -12,6 +12,8 @@ using BankApplication.Models;
 using BankApplication.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 namespace BankApplication
 {
@@ -43,6 +45,19 @@ namespace BankApplication
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            var supportedCultures = new[]
+            {
+                new CultureInfo("sv-SE")
+            };
+
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("sv-SE"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
+
 
             app.UseAuthentication();
             app.UseStaticFiles();

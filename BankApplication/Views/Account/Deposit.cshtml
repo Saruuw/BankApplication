@@ -9,12 +9,19 @@
           data-ajax-mode="replace"
           data-ajax-update="#depositDoneDiv">
         <input type="hidden" asp-for="@Model.Account.AccountId" />
-        <label asp-for="@Model.Account.AccountId">Insättning till konto:</label>
-        <p>@Model.Account.AccountId - @Model.Account.Balance SEK</p>
-        <label asp-for="@Model.Transaction.Amount">Summa</label>
-        <input type="text" asp-for="@Model.Transaction.Amount" /> SEK
-        <br /><br />
-        <input type="submit" value="Godkänn" />
+        <div class="form-group">
+            <label asp-for="@Model.Account.AccountId">Insättning till konto:</label>
+            <p>@Model.Account.AccountId</p>
+            </div>
+        <div class="form-group">
+            <label asp-for="@Model.Account.Balance">Saldo</label>
+            <p>@Model.Account.Balance SEK</p>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Transaction.Amount">Summa</label>
+            <input type="text" asp-for="@Model.Transaction.Amount" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Godkänn insättning</button>
         <a asp-controller="Account" asp-action="AccountDetails" asp-route-id="@Model.Account.AccountId">Tillbaka</a>
     </form>
 </div>

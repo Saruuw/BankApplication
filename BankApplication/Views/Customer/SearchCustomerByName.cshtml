@@ -1,30 +1,63 @@
 ﻿@model CustomerSearchViewModel
 
     <div id="searchCustomerByName">
-        <h3 id="cartHeadline">Sök kund</h3>
-        <form asp-controller="Customer"
-              asp-action="SearchCustomerByName"
-              data-ajax="true"
-              data-ajax-method="POST"
-              data-ajax-mode="replace"
-              data-ajax-update="#customerSearchResultDiv">
-            <p>Vill du söka på förnamn, efternnamn eller stad?</p>
-            <input type="radio" id="name" name="NameOrCity" value="name" />
-            <label for="name">Förnamn eller efternamn</label>
-            <input type="radio" id="city" name="NameOrCity" value="city">
-            <label for="city">Stad</label>
-            <br />
-            <label>Söktext</label>
-            <br />
-            <input type="text" asp-for="@Model.SearchValue" />
-            <br />
-            <br />
-            <input type="submit" value="Sök" />
-        </form>
+        <div id="searchCustomerByNameInner">
+            <h3 id="cartHeadline">Sök kund</h3>
+            <form asp-controller="Customer" asp-action="SearchCustomerByName" method="get">
+                <div class="form-group">
+                    <p>Vill du söka på förnamn, efternnamn eller stad?</p>
+                    @if (Model.NameOrCity == "name")
+                    {
+                        <input type="radio" id="name" name="NameOrCity" value="name" checked="checked" />
+                        <label for="name">Förnamn eller efternamn</label>
+                        <input type="radio" id="city" name="NameOrCity" value="city" />
+                        <label for="city">Stad</label>
+                    }
+                    else if (Model.NameOrCity == "city")
+                    {
+                        <input type="radio" id="name" name="NameOrCity" value="name" />
+                        <label for="name">Förnamn eller efternamn</label>
+                        <input type="radio" id="city" name="NameOrCity" value="city" checked="checked" />
+                        <label for="city">Stad</label>
+                    }
+                    else
+                    {
+                        <input type="radio" id="name" name="NameOrCity" value="name" />
+                        <label for="name">Förnamn eller efternamn</label>
+                        <input type="radio" id="city" name="NameOrCity" value="city" />
+                        <label for="city">Stad</label>
+                    }
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.SearchValue">Söktext</label>
+                    <input type="text" asp-for="@Model.SearchValue" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-primary">Sök</button>
+            </form>
+        </div>
+
+        <br />
+        <h2>Sökresultat</h2>
+        <table>
+            @foreach (var cust in Model.CustomerList)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Customer" asp-action="ShowCustomer" asp-route-id="@cust.CustomerId">@cust.Givenname @cust.Surname</a>
+                    </td>
+                    <td>
+                        Kundnummer: @cust.CustomerId
+                    </td>
+                    <td>Personnummer: @cust.Birthday</td>
+                    <td>Adress: @cust.Streetaddress - @cust.City</td>
+                </tr>
+            }
+        </table>
+
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <a asp-controller="Customer" asp-action="SearchCustomerByName" asp-route-searchValue="@Model.SearchValue" asp-route-nameOrCity="@Model.NameOrCity" asp-route-page="@i">@i</a>
+        }
     </div>
 
-@if(Model != null)
-{
-    <div id="customerSearchResultDiv">
-    </div>
-}
+<p>@ViewData["Message"]</p>

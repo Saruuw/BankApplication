@@ -1,94 +1,95 @@
 ﻿@model CustomerMessageViewModel
 
-<div id="customerInfo-div">
-    <h2>Skapa ny/Redigera kund</h2>
-    <p>Fyll i nedanstående uppgifter och klicka sedan på Spara</p>
-    <p>Fält markerade med * är obligatoriska att fylla i</p>
-    <br />
-    <form asp-controller="Customer" asp-action="NewCustomer" method="post">
-        <input type="hidden" asp-for="@Model.Customer.CustomerId" />
-        <label asp-for="@Model.Customer.Givenname">* Förnamn</label>
-        <br />
-        <input asp-for="@Model.Customer.Givenname" />
-        <span asp-validation-for="@Model.Customer.Givenname"></span>
-        <br /><br />
-        <label asp-for="@Model.Customer.Surname">* Efternamn</label>
-        <br />
-        <input asp-for="@Model.Customer.Surname" />
-        <span asp-validation-for="@Model.Customer.Surname"></span>
-        <br /><br />
-        <label>* Kön</label>
-        <br />
-        @if (Model.Customer.Gender == "female")
-        {
-            <input type="radio" id="female" name="Customer.Gender" value="female" checked="checked" />
-            <label for="female">Kvinna</label>
-            <input type="radio" id="male" name="Customer.Gender" value="male" />
-            <label for="male">Man</label>
-        }
-        else if (Model.Customer.Gender == "male")
-        {
-            <input type="radio" id="female" name="Customer.Gender" value="female" />
-            <label for="female">Kvinna</label>
-            <input type="radio" id="male" name="Customer.Gender" value="male" checked="checked" />
-            <label for="male">Man</label>
-        }
-        else
-        {
-            <input type="radio" id="female" name="Customer.Gender" value="female" />
-            <label for="female">Kvinna</label>
-            <input type="radio" id="male" name="Customer.Gender" value="male">
-            <label for="male">Man</label>
-        }
-        <br /><br />
-        <label asp-for="@Model.Customer.Streetaddress">* Adress</label>
-        <br />
-        <input asp-for="@Model.Customer.Streetaddress" />
-        <span asp-validation-for="@Model.Customer.Streetaddress"></span>
-        <br /><br />
-        <label asp-for="@Model.Customer.City">* Stad</label>
-        <br />
-        <input asp-for="@Model.Customer.City" />
-        <span asp-validation-for="@Model.Customer.City"></span>
-        <br /><br />
-        <label asp-for="@Model.Customer.Zipcode">* Postnummer</label>
-        <br />
-        <input asp-for="@Model.Customer.Zipcode" />
-        <span asp-validation-for="@Model.Customer.Zipcode"></span>
-        <br /><br />
-        <label asp-for="@Model.Customer.Country">* Land</label>
-        <br />
-        <input asp-for="@Model.Customer.Country" />
-        <span asp-validation-for="@Model.Customer.Country"></span>
-        <br /><br />
-        <label asp-for="@Model.Customer.CountryCode">* Landskod</label>
-        <br />
-        <input asp-for="@Model.Customer.CountryCode" placeholder="ex, SE / UK / NO" />
-        <span asp-validation-for="@Model.Customer.CountryCode"></span>
-        <br /><br />
-        <label asp-for="@Model.Customer.Birthday">Personnummer</label>
-        <br />
-        <input type="text" asp-for="@Model.Customer.Birthday" placeholder="åå-mm-dd" />
-        <br /><br />
-        <label asp-for="@Model.Customer.NationalId">Nationellt id</label>
-        <br />
-        <input asp-for="@Model.Customer.NationalId" />
-        <br /><br />
-        <label asp-for="@Model.Customer.Telephonecountrycode">Riktnummer</label>
-        <br />
-        <input asp-for="@Model.Customer.Telephonecountrycode" placeholder="ex, 46 / 358" />
-        <br /><br />
-        <label asp-for="@Model.Customer.Telephonenumber">Telefonnummer</label>
-        <br />
-        <input asp-for="@Model.Customer.Telephonenumber" />
-        <br /><br />
-        <label asp-for="@Model.Customer.Emailaddress">Email</label>
-        <br />
-        <input asp-for="@Model.Customer.Emailaddress" placeholder="ex, namn.efternamn@hotmail.com" />
-        <span asp-validation-for="@Model.Customer.Emailaddress"></span>
-        <br /><br />
-        <input type="submit" value="Spara" />
-        <a asp-controller="Customer" asp-action="ShowCustomer" asp-route-id="@Model.Customer.CustomerId">Tillbaka</a>
-    </form>
-    <p>@Model.Message</p>
-</div>
+        <div id="customerInner-div">
+            <h2>Skapa ny/Redigera kund</h2>
+            <p>Fyll i nedanstående uppgifter och klicka sedan på Spara</p>
+            <p>Fält markerade med * är obligatoriska att fylla i</p>
+            <br />
+            <form asp-controller="Customer" asp-action="NewCustomer" method="post">
+                <input type="hidden" asp-for="@Model.Customer.CustomerId" />
+                <div class="form-group">
+                    <label asp-for="@Model.Customer.Givenname">* Förnamn</label>
+                    <input asp-for="@Model.Customer.Givenname" class="form-control" />
+                    <span asp-validation-for="@Model.Customer.Givenname"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Customer.Surname">* Efternamn</label>
+                    <input asp-for="@Model.Customer.Surname" class="form-control" />
+                    <span asp-validation-for="@Model.Customer.Surname"></span>
+                </div>
+                <div class="form-group">
+                    <label>* Kön</label>
+                    <br />
+                    @if (Model.Customer.Gender == "female")
+                    {
+                        <input type="radio" id="female" name="Customer.Gender" value="female" checked="checked" />
+                        <label for="female">Kvinna</label>
+                        <input type="radio" id="male" name="Customer.Gender" value="male" />
+                        <label for="male">Man</label>
+                    }
+                    else if (Model.Customer.Gender == "male")
+                    {
+                        <input type="radio" id="female" name="Customer.Gender" value="female" />
+                        <label for="female">Kvinna</label>
+                        <input type="radio" id="male" name="Customer.Gender" value="male" checked="checked" />
+                        <label for="male">Man</label>
+                    }
+                    else
+                    {
+                        <input type="radio" id="female" name="Customer.Gender" value="female" />
+                        <label for="female">Kvinna</label>
+                        <input type="radio" id="male" name="Customer.Gender" value="male">
+                        <label for="male">Man</label>
+                    }
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Customer.Streetaddress">* Adress</label>
+                    <input asp-for="@Model.Customer.Streetaddress" class="form-control" />
+                    <span asp-validation-for="@Model.Customer.Streetaddress"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Customer.City">* Stad</label>
+                    <input asp-for="@Model.Customer.City" class="form-control" />
+                    <span asp-validation-for="@Model.Customer.City"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Customer.Zipcode">* Postnummer</label>
+                    <input asp-for="@Model.Customer.Zipcode" class="form-control" />
+                    <span asp-validation-for="@Model.Customer.Zipcode"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Customer.Country">* Land</label>
+                    <input asp-for="@Model.Customer.Country" class="form-control" />
+                    <span asp-validation-for="@Model.Customer.Country"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Customer.CountryCode">* Landskod</label>
+                    <input asp-for="@Model.Customer.CountryCode" class="form-control" placeholder="ex, SE / UK / NO" />
+                    <span asp-validation-for="@Model.Customer.CountryCode"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Customer.Birthday">Personnummer</label>
+                    <input type="text" asp-for="@Model.Customer.Birthday" class="form-control" placeholder="åå-mm-dd" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Customer.NationalId">Nationellt id</label>
+                    <input asp-for="@Model.Customer.NationalId" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Customer.Telephonecountrycode">Riktnummer</label>
+                    <input asp-for="@Model.Customer.Telephonecountrycode" class="form-control" placeholder="ex, 46 / 358" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Customer.Telephonenumber">Telefonnummer</label>
+                    <input asp-for="@Model.Customer.Telephonenumber" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Customer.Emailaddress">Email</label>
+                    <input asp-for="@Model.Customer.Emailaddress" class="form-control" placeholder="ex, namn.efternamn@hotmail.com" />
+                    <span asp-validation-for="@Model.Customer.Emailaddress"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Spara</button>
+                <a asp-controller="Customer" asp-action="ShowCustomer" asp-route-id="@Model.Customer.CustomerId">Tillbaka</a>
+            </form>
+        </div>
+        <p>@Model.Message</p>

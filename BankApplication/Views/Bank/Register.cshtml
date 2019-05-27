@@ -1,19 +1,29 @@
 ﻿@model RegisterUser
 
-    <form asp-controller="Bank" asp-action="Register" method="post">
-        <label asp-for="UserName">Användarnamn</label>
-        <input asp-for="UserName" />
-        <br />
-        <label asp-for="Password">Lösenord</label>
-        <input asp-for="Password" />
-        <br />
-        <input type="radio" asp-for="RoleName" id="ADMIN" value="ADMIN" />
-        Admin
+    <div id="registrera">
+        <form asp-controller="Bank" asp-action="Register" method="post">
+            <div class="form-group">
+                <label asp-for="UserName">Användarnamn</label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="@Model.UserName"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password">Lösenord</label>
+                <input asp-for="Password" type="password" class="form-control" />
+                <span asp-validation-for="@Model.Password"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CheckPassword">Upprepa lösenord</label>
+                <input asp-for="CheckPassword" type="password" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="radio" asp-for="RoleName" id="ADMIN" value="ADMIN" />
+                Admin
 
-        <input type="radio" asp-for="RoleName" id="CASHIER" value="CASHIER" />
-        Cashier
-        <br /><br />
-        <input type="submit" value="Lägg till" />
-    </form>
-
-<p>@ViewData["Message"]</p>
+                <input type="radio" asp-for="RoleName" id="CASHIER" value="CASHIER" />
+                Cashier
+            </div>
+            <button type="submit" class="btn btn-primary">Lägg till</button>
+        </form>
+    </div>
+        <p>@ViewData["Message"]</p>

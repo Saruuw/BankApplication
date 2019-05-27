@@ -13,6 +13,10 @@ namespace BankApplication.ViewModels
 
         public string NameOrCity { get; set; }
 
+        public int TotalPages { get; set; }
+
+        public bool HasMorePages { get; set; }
+
         public CustomerSearchViewModel()
         {
             CustomerList = new List<Customers>();

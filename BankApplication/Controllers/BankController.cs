@@ -34,16 +34,20 @@ namespace BankApplication.Controllers
 
         [AllowAnonymous]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(RegisterUser user)
         {
-            var result = await _signInManager.PasswordSignInAsync(user.UserName, user.Password, true, false);
+                if (ModelState.IsValid)
+                {
+                    var result = await _signInManager.PasswordSignInAsync(user.UserName, user.Password, true, false);
 
-            if (result.Succeeded)
-            {
-                return RedirectToAction("Index", "Bank");
-            }
-
-            return View();
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Bank");
+                    }
+                }
+                ViewData["Message"] = "Användarnamn eller lösenord stämmer ej. Försök igen";
+                return View();
         }
 
         [Authorize]
@@ -81,19 +85,29 @@ namespace BankApplication.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterUser user)
         {
-            var userIdentity = new ApplicationUser { UserName = user.UserName };
-
-            var result = await _userManager.CreateAsync(userIdentity, user.Password);
-
-            var resultRole = await _userManager.AddToRoleAsync(userIdentity, user.RoleName);
-
-            if (result.Succeeded)
+            if (user.Password == user.CheckPassword)
             {
-                ViewData["Message"] = "Nya användare har skapats";
+                if (ModelState.IsValid)
+                {
+                    var userIdentity = new ApplicationUser { UserName = user.UserName };
+
+                    var result = await _userManager.CreateAsync(userIdentity, user.Password);
+
+                    var resultRole = await _userManager.AddToRoleAsync(userIdentity, user.RoleName);
+
+                    if (result.Succeeded)
+                    {
+                        ViewData["Message"] = "Nya användare har skapats";
+                    }
+                }
+
+                return View();
             }
 
+            ViewData["Message"] = "Lösenorden matchar ej. Försök igen";
             return View();
         }
     }

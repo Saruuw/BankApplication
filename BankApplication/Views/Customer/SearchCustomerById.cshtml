@@ -3,12 +3,11 @@
 <div id="searchCustomerById">
         <h3 id="cartHeadline">Sök kund</h3>
         <form asp-controller="Customer" asp-action="ShowCustomer">
-            <label>Kundnummer</label>
-            <br />
-            <input type="text" name="id" id="id" />
-            <br />
-            <br />
-            <input type="submit" value="Sök" />
+            <div class="form-group">
+                <label>Kundnummer</label>
+                <input type="text" name="id" id="id" class="form-control" />
+                </div>
+            <button type="submit" class="btn btn-primary">Sök</button>
         </form>
-    <h3>@ViewData["Message"]</h3>
+    <p>@ViewData["Message"]</p>
 </div>
