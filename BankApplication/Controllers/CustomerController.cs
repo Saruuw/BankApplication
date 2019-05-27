@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BankApplication.Models;
 using BankApplication.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BankApplication.Controllers
 {
+    [Authorize(Roles = "Cashier")]
     public class CustomerController : Controller
     {
         private BankAppDataContext _context;
@@ -37,14 +39,14 @@ namespace BankApplication.Controllers
 
                     Accounts newAccount = new Accounts();
                     newAccount.Balance = 0;
-                    newAccount.Frequency = "Monthly"; //hårdkodat. Kolla med Haglund vad man bör göra här!
+                    newAccount.Frequency = "Monthly";
                     newAccount.Created = DateTime.Now;
                     _context.Accounts.Add(newAccount);
 
                     Dispositions newDisposition = new Dispositions();
                     newDisposition.AccountId = newAccount.AccountId;
                     newDisposition.CustomerId = values.Customer.CustomerId;
-                    newDisposition.Type = "OWNER"; //hårdkodat. Kolla med Haglund vad man bör göra här!
+                    newDisposition.Type = "OWNER";
                     _context.Dispositions.Add(newDisposition);
 
                     _context.SaveChanges();
@@ -105,7 +107,7 @@ namespace BankApplication.Controllers
 
             if (values.NameOrCity == "name")
             {
-                model.CustomerList = _context.Customers.Where(c => c.Givenname.Contains(values.SearchValue)).ToList();
+                model.CustomerList = _context.Customers.Where(c => c.Givenname.Contains(values.SearchValue) || c.Surname.Contains(values.SearchValue)).ToList();
             }
             else if (values.NameOrCity == "city")
             {

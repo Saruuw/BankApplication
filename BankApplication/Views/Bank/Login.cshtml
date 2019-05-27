@@ -1,0 +1,11 @@
+﻿@model RegisterUser
+
+<form asp-controller="Bank" asp-action="Login" method="post">
+    <label asp-for="@Model.UserName">Användarnamn</label>
+    <input asp-for="@Model.UserName" type="text" />
+    <br />
+    <label asp-for="@Model.Password">Lösenord</label>
+    <input asp-for="Password" type="password" />
+    <br /><br />
+    <input type="submit" value="Logga in" />
+</form>

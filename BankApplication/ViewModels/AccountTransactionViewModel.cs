@@ -11,10 +11,11 @@ namespace BankApplication.ViewModels
         public Accounts Account { get; set; }
         public List<Transactions> TransactionList { get; set; }
 
+        public LongListViewModel ListViewModel { get; set; }
+
         public AccountTransactionViewModel()
         {
             Account = new Accounts();
-            TransactionList = new List<Transactions>();
         }
     }
 }

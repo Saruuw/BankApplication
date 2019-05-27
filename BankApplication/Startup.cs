@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using BankApplication.Models;
 using BankApplication.Data;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace BankApplication
 {
@@ -36,8 +37,7 @@ namespace BankApplication
                 .AddDefaultTokenProviders();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -46,12 +46,11 @@ namespace BankApplication
 
             app.UseAuthentication();
             app.UseStaticFiles();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                 name: "Default",
-                template: "{controller=Bank}/{action=Index}"
+                template: "{controller=Bank}/{action=Login}"
                     );
             });
         }

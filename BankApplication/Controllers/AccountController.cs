@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using BankApplication.Models;
 using BankApplication.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankApplication.Controllers
 {
+    [Authorize(Roles = "Cashier")]
     public class AccountController : Controller
     {
         private BankAppDataContext _context;
@@ -118,17 +120,17 @@ namespace BankApplication.Controllers
 
             var oldTo = _context.Accounts.SingleOrDefault(a => a.AccountId == Int32.Parse(values.Account));
 
-            if(oldTo == null)
+            if (oldTo == null)
             {
                 return PartialView("_TransactionFailed", values);
             }
-            
+
             var newTo = oldTo;
             newTo.Balance = oldTo.Balance + values.Amount;
             transactionTo.Balance = newTo.Balance;
 
             var oldFrom = _context.Accounts.SingleOrDefault(a => a.AccountId == values.AccountId);
-            if(oldFrom.Balance < values.Amount)
+            if (oldFrom.Balance < values.Amount)
             {
                 return PartialView("_TransactionAmountToHigh");
             }
@@ -150,13 +152,47 @@ namespace BankApplication.Controllers
 
         }
 
-        public IActionResult AccountDetails(int id)
+        public IActionResult AccountDetails(int id, int page = 1)
         {
+            var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+
+            const int pageSize = 20;
+
             var model = new AccountTransactionViewModel();
             model.Account = _context.Accounts.SingleOrDefault(a => a.AccountId == id);
             model.TransactionList = _context.Transactions.Where(t => t.AccountId == id).ToList();
+            var totalNumber = model.TransactionList.Count();
 
-            return View(model);
+            var transactions = GetTransactions(id, pageSize, (page - 1) * pageSize);
+
+            model.ListViewModel = new LongListViewModel
+            {
+                PageNumber = page,
+                PageSize = pageSize,
+                TotalNumberOfItems = totalNumber,
+                CanShowMore = page * pageSize < totalNumber,
+                Transactions = transactions
+            };
+
+
+            if (isAjax)
+            {
+                return PartialView("_TransactionRows", model);
+            }
+            else
+            {
+                return View(model);
+            };
         }
+
+        public IList<Transactions> GetTransactions(int id, int take, int skip)
+        {
+            var list = _context.Transactions.Where(t => t.AccountId == id).ToList();
+
+            return list
+                .Skip(skip).Take(take)
+                .ToList();
+        }
+
     }
 }

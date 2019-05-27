@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using BankApplication.Data
+<!DOCTYPE html>
 
 <html>
 
@@ -17,9 +19,7 @@
     </header>
 
     <nav>
-        <a class="navLink" asp-controller="Customer" asp-action="NewCustomer">Skapa kund</a>
-        <a class="navLink" asp-controller="Customer" asp-action="SearchCustomerById">Sök kundnummer</a>
-        <a class="navLink" asp-controller="Customer" asp-action="SearchCustomerByName">Sök kundnamn</a>
+        <partial name="_LoginPartial" />
     </nav>
 
     <div>

@@ -1,0 +1,35 @@
+﻿@model AccountTransactionViewModel
+
+
+    @foreach (var trans in Model.ListViewModel.Transactions)
+    {
+        <tr>
+            <td>@trans.TransactionId</td>
+            <td>@trans.Date.ToShortDateString()</td>
+            <td>@trans.Type</td>
+            <td>@trans.Operation</td>
+            <td>@trans.Amount</td>
+            <td>@trans.Balance</td>
+            <td>@trans.Symbol</td>
+            <td>@trans.Bank</td>
+            <td>@trans.Account</td>
+        </tr>
+    }
+    <tr id="buttonRow">
+        <td colspan="3" align="center">
+            @if (Model.ListViewModel.CanShowMore)
+            {
+                <div>
+                    <a data-ajax="true" data-ajax-mode="REPLACE-WITH" data-ajax-update="#buttonRow" class="btn btn-primary" asp-route-page="@(Model.ListViewModel.PageNumber+1)" asp-route-id="@Model.Account.AccountId"
+                       data-ajax-loading="#spinner"
+                       role="button">Visa fler transaktioner</a>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-primary" role="alert">
+                    Slut på transaktioner.
+                </div>
+            }
+        </td>
+    </tr>

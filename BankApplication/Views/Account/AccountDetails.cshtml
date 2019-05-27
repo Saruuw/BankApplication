@@ -1,41 +1,29 @@
 ﻿@model AccountTransactionViewModel
 
-    <div id="accountDetailsDiv">
-        <label asp-for="@Model.Account.AccountId">Kontonummer</label>
-        <p asp-for="@Model.Account.AccountId">@Model.Account.AccountId</p>
-        <label asp-for="@Model.Account.Balance">Saldo</label>
-        <p asp-for="@Model.Account.Balance">@Model.Account.Balance</p>
-        <br />
-        <a asp-controller="Account" asp-action="Deposit" asp-route-id="@Model.Account.AccountId">Insättning</a>
-        <a asp-controller="Account" asp-action="Withdrawal" asp-route-id="@Model.Account.AccountId">Uttag</a>
-        <a asp-controller="Account" asp-action="Transaction" asp-route-id="@Model.Account.AccountId">Överföring</a>
-        <br /><br />
-        <h2>Transaktioner</h2>
-        <table>
-            <tr>
-                <th>Transaktions id</th>
-                <th>Datum</th>
-                <th>Typ av åtgärd</th>
-                <th>Procedur</th>
-                <th>Summa</th>
-                <th>Nytt saldo</th>
-                <th>Anteckning</th>
-                <th>Bank</th>
-                <th>Till/från konto</th>
-            </tr>
-            @foreach (var trans in Model.TransactionList)
-            {
-                <tr>
-                    <td>@trans.TransactionId</td>
-                    <td>@trans.Date.ToShortDateString()</td>
-                    <td>@trans.Type</td>
-                    <td>@trans.Operation</td>
-                    <td>@trans.Amount</td>
-                    <td>@trans.Balance</td>
-                    <td>@trans.Symbol</td>
-                    <td>@trans.Bank</td>
-                    <td>@trans.Account</td>
-                </tr>
-            }
-        </table>
-    </div>
+<div id="accountDetailsDiv">
+    <label asp-for="@Model.Account.AccountId">Kontonummer</label>
+    <p asp-for="@Model.Account.AccountId">@Model.Account.AccountId</p>
+    <label asp-for="@Model.Account.Balance">Saldo</label>
+    <p asp-for="@Model.Account.Balance">@Model.Account.Balance</p>
+    <br />
+    <a asp-controller="Account" asp-action="Deposit" asp-route-id="@Model.Account.AccountId">Insättning</a>
+    <a asp-controller="Account" asp-action="Withdrawal" asp-route-id="@Model.Account.AccountId">Uttag</a>
+    <a asp-controller="Account" asp-action="Transaction" asp-route-id="@Model.Account.AccountId">Överföring</a>
+    <br /><br />
+    <h2>Transaktioner</h2>
+    <table>
+        <tr>
+            <th>Transaktions id</th>
+            <th>Datum</th>
+            <th>Typ av åtgärd</th>
+            <th>Procedur</th>
+            <th>Summa</th>
+            <th>Nytt saldo</th>
+            <th>Anteckning</th>
+            <th>Bank</th>
+            <th>Till/från konto</th>
+        </tr>
+        <partial name="_TransactionRows" />
+    </table>
+
+</div>

@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BankApplication.Data;
 using BankApplication.Models;
 using BankApplication.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,12 +16,46 @@ namespace BankApplication.Controllers
     public class BankController : Controller
     {
         private BankAppDataContext _context;
+        private UserManager<ApplicationUser> _userManager;
+        private SignInManager<ApplicationUser> _signInManager;
 
-        public BankController(BankAppDataContext context)
+        public BankController(BankAppDataContext context, UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
-        // GET: /<controller>/
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> Login(RegisterUser user)
+        {
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, user.Password, true, false);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Bank");
+            }
+
+            return View();
+        }
+
+        [Authorize]
+        public async Task<IActionResult> LogOff()
+        {
+
+            await _signInManager.SignOutAsync();
+
+            return RedirectToAction("Login", "Bank");
+        }
+
+        [Authorize]
         public IActionResult Index()
         {
             var model = new IndexViewModel();
@@ -34,6 +71,30 @@ namespace BankApplication.Controllers
             }
             
             return View(model);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterUser user)
+        {
+            var userIdentity = new ApplicationUser { UserName = user.UserName };
+
+            var result = await _userManager.CreateAsync(userIdentity, user.Password);
+
+            var resultRole = await _userManager.AddToRoleAsync(userIdentity, user.RoleName);
+
+            if (result.Succeeded)
+            {
+                ViewData["Message"] = "Nya användare har skapats";
+            }
+
+            return View();
         }
     }
 }

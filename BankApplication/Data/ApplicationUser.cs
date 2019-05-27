@@ -9,4 +9,5 @@ namespace BankApplication.Data
     public class ApplicationUser : IdentityUser
     {
     }
+
 }
